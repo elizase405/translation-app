@@ -11,10 +11,28 @@ function DetectChatbox() {
     setText(e.target.value);
   };
 
+
+  useEffect(() => {
+    fetch("https://cors-anywhere.herokuapp.com/https://api.mymemory.translated.net"
+, {
+      method: "POST",
+      body: JSON.stringify({
+        q: text,
+        source: "en|fr",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log("Unable to translate: ", err))
+  }, []);
+
   const handleRead = () => {
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
+    utterance.voice = speechSynthesis.getVoices()[4];
     synth.speak(utterance);
   };
 
@@ -45,9 +63,9 @@ function DetectChatbox() {
         </span>
       )}
       <div className="border-b border-[#D2D5DA22]">
-        <div className="w-4/5 md:w-[55%] lg:w-2/5 xl:w-4/5 flex items-center justify-between pb-3 pl-4 text-[#D2D5DA]">
+        <div className="w-5/6 md:w-[55%] lg:w-2/5 xl:w-4/5 flex items-center justify-between pb-3 pl-4 text-[#D2D5DA]">
           <p>Detect Language</p>
-          <p className="bg-[#D2D5DA44] px-4 py-2 rounded-xl text-white">
+          <p className="bg-[#D2D5DA44] p-2 md:px-4 rounded-xl text-white">
             English
           </p>
           <p>French</p>
